@@ -1,0 +1,75 @@
+﻿<Window x:Class="MotorClient.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MotorClient"
+        mc:Ignorable="d"
+        Title="ClientWindow"
+		Height="500" Width="500" Closing="Window_Closing">
+		<!--="Maximized" WindowStyle="None"-->
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="7*"/>
+			<RowDefinition Height="93*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<!--TOP BAR-->
+		<Button Name="btn_quit"  HorizontalAlignment="Right" Foreground="White" Background="Red" FontSize="35" Height="40" Width="40" VerticalContentAlignment="Center" Padding="0 -5 0 0" Margin="10" Click="btn_quit_Click" Content="X"/>
+		
+		<!--INTERACTION AREA-->
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<!--BUTTONS-->
+				<Button Name="btn_cmd1"
+					Grid.Column="0"
+						Margin="30"
+						FontSize="30"
+						Click="btn_cmd1_Click"
+						>CMD1</Button>
+			</Grid>
+			<!--CONSOLE-->
+			<ScrollViewer Name="consoleOutput"
+						Grid.Row="1" 
+						Margin="10"
+						Padding="10"
+						FontFamily="Roboto"
+						FontSize="24"
+						Foreground="White"
+						Background="Black"
+					   
+						>
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+				Sample text
+			</ScrollViewer>
+		</Grid>
+	</Grid>
+</Window>
