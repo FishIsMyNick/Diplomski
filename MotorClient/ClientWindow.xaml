@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:MotorClient"
         mc:Ignorable="d"
         Title="ClientWindow"
-		Height="500" Width="500" Closing="Window_Closing">
-		<!--="Maximized" WindowStyle="None"-->
+		MinHeight="500" MinWidth="500" 
+		MaxHeight="2160" MaxWidth="3840"
+		Closing="Window_Closing">
+		<!--WindowState="Maximized" WindowStyle="None"-->
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="7*"/>
@@ -39,6 +41,12 @@
 						FontSize="30"
 						Click="btn_cmd1_Click"
 						>CMD1</Button>
+				<Button Name="btn_cmd2"
+					Grid.Column="1"
+						Margin="30"
+						FontSize="30"
+						Click="btn_cmd2_Click"
+						>CMD2</Button>
 			</Grid>
 			<!--CONSOLE-->
 			<ScrollViewer Name="consoleOutput"

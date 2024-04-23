@@ -41,7 +41,8 @@ namespace MotorClient
         }
 
         #region CONNECTION
-        private string serverIPv4 = "127.0.0.1";
+        //private static string serverIPv4 = "188.2.24.251";
+        private static string serverIPv4 = "127.0.0.1";
         private int serverPort = 12345;
 
         private int ConnectToServer()
@@ -81,7 +82,7 @@ namespace MotorClient
                 dataFromServer = dataFromServer.Split('\0')[0];
 
                 Console.WriteLine("Server response: " + dataFromServer);
-                AddLineToCmdOutput("Server: " + dataFromServer);
+                AddLineToCmdOutput("SERVER: " + dataFromServer);
 
                 return dataFromServer.Length > 0 ? 0 : 1;
             }
@@ -111,7 +112,13 @@ namespace MotorClient
 
         private void btn_cmd1_Click(object sender, RoutedEventArgs e)
         {
+            AddLineToCmdOutput("CLIENT: Sending komanda 1");
             SendCommand("komanda 1");
+        }
+        private void btn_cmd2_Click(object sender, RoutedEventArgs e)
+        {
+            AddLineToCmdOutput("CLIENT: Sending komanda 2");
+            SendCommand("komanda 2");
         }
 
         #endregion
@@ -134,5 +141,6 @@ namespace MotorClient
             DisconnectFromServer();
             listening = false;
         }
+
     }
 }

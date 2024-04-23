@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,7 @@ public class Server
     private static TcpListener serverSocket;
     private static NetworkStream networkStream;
 
+    //private static string serverIPv4 = "188.2.24.251";
     private static string serverIPv4 = "127.0.0.1";
     private static int serverPort = 12345;
 
@@ -58,6 +60,7 @@ public class Server
         {
             if (client == null)
             {
+                await Console.Out.WriteLineAsync($"Listening for client on {serverIPv4}:{serverPort}");
                 await ListenForConnections();
             }
             else
@@ -65,113 +68,37 @@ public class Server
                 await Task.Delay(100);
             }
         }
-        TcpClient clientSocket = null;
-
-        {
-            //while (running)
-            //{
-            //    while (clientQueue.Count == 0)
-            //    {
-
-            //        clientSocket = serverSocket.AcceptTcpClient();
-            //        clientQueue.Add(clientSocket);
-            //        Console.WriteLine("Client connected");
-            //    }
-
-            //    while (true)
-            //    {
-            //        networkStream = clientSocket.GetStream();
-            //        try
-            //        {
-
-            //            byte[] bytesFrom = new byte[1024];
-            //            networkStream.Read(bytesFrom, 0, bytesFrom.Length);
-
-            //            string dataFromClient = Encoding.ASCII.GetString(bytesFrom);
-            //            //dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("\0"));
-            //            dataFromClient = dataFromClient.Split('\0')[0];
-
-            //            Console.WriteLine("Received from client: " + dataFromClient);
-
-            //            string serverResponse = "not available";
-            //            byte[] sendBytes;
-            //            Command cmd = ParseCommand(dataFromClient);
-
-
-            //            switch (cmd)
-            //            {
-            //                case Command.None:
-            //                    serverResponse = "No command sent.";
-            //                    sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-            //                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-            //                    networkStream.Flush();
-            //                    break;
-            //                case Command.RotateCW:
-            //                    serverResponse = "Starting command 1 -- <" + DateTime.Now + ">";
-            //                    sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-            //                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-            //                    networkStream.Flush();
-
-            //                    await MotorFunction1();
-
-            //                    serverResponse = "Command 1 completed -- <" + DateTime.Now + ">";
-            //                    sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-            //                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-            //                    networkStream.Flush();
-            //                    break;
-            //                case Command.RotateCCW:
-            //                    serverResponse = "Starting command 2 -- <" + DateTime.Now + ">";
-            //                    sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-            //                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-            //                    networkStream.Flush();
-
-            //                    await MotorFunction2();
-
-            //                    serverResponse = "Command 2 completed -- <" + DateTime.Now + ">";
-            //                    sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-            //                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-            //                    networkStream.Flush();
-            //                    break;
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine("Client disconnected");
-            //            clientQueue.Remove(clientSocket);
-            //            client = null;
-            //            break;
-            //        }
-            //    }
-            //    clientSocket.Close();
-            //}
-
-            //serverSocket.Stop();
-        }
         return 0;
     }
     private static async Task ListenForCommandsLoop()
     {
-        while (client != null)
+        while (listening)
         {
-            try
+            while (client != null)
             {
-                networkStream = client.GetStream();
-                byte[] bytesFrom = new byte[1024];
-                await networkStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
+                try
+                {
+                    networkStream = client.GetStream();
+                    byte[] bytesFrom = new byte[1024];
 
-                string dataFromClient = Encoding.ASCII.GetString(bytesFrom);
-                dataFromClient = dataFromClient.Split('\0')[0];
+                    if (client != null)
+                    {
+                        await networkStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
+                        if (bytesFrom[0] == 0) continue;
+                    }
 
-                Console.WriteLine("Received from client: " + dataFromClient);
+                    string dataFromClient = Encoding.ASCII.GetString(bytesFrom).Split('\0')[0];
 
-                string serverResponse = "not available";
-                byte[] sendBytes;
-                taskQueue.Add(ParseCommand(dataFromClient));
-            }
-            catch (Exception ex)
-            {
-                client = null;
-                await Console.Out.WriteLineAsync("Client lost connection unexpectedly.");
+                    Console.WriteLine("Received from client: " + dataFromClient);
+
+                    taskQueue.Add(ParseCommand(dataFromClient));
+                }
+                catch (Exception ex)
+                {
+                    client = null;
+                    await Console.Out.WriteLineAsync("Client lost connection unexpectedly.");
+                }
+                await Task.Delay(100);
             }
             await Task.Delay(100);
         }
@@ -255,10 +182,54 @@ public class Server
     #endregion
 
     #region MOTOR FUNCTION CALLS
+
+    static void CallPythonScript(Command cmd, float val)
+    {
+        // Create a new process
+        Process process = new Process();
+
+        string pythonPath = @"E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0"; // Update with actual path
+        // Specify the Python interpreter and script file
+        process.StartInfo.FileName = pythonPath; // or "python3" for Python 3.x
+        switch (cmd)
+        {
+            case Command.None: return;
+            case Command.RotateCW:
+                process.StartInfo.Arguments = $"rotateCW.py {val.ToString()}";
+                break;
+            case Command.RotateCCW:
+                process.StartInfo.Arguments = $"rotateCCW.py {val.ToString()}";
+                break;
+            default: return;
+        }
+
+        // Redirect standard output and error streams
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+
+        // Set whether to use the operating system shell to start the process
+        process.StartInfo.UseShellExecute = false;
+
+        // Start the process
+        process.Start();
+
+        // Wait for the process to exit and retrieve output/error messages
+        process.WaitForExit(30000);
+        string output = process.StandardOutput.ReadToEnd();
+        string error = process.StandardError.ReadToEnd();
+
+        // Display output and error messages
+        Console.WriteLine("Operation Output:");
+        Console.WriteLine(output);
+        Console.WriteLine("Operation Error:");
+        Console.WriteLine(error);
+    }
+
+
     private static async Task MotorFunction1()
     {
         await Console.Out.WriteLineAsync("Starting function 1 -- <" + DateTime.Now + ">");
-        await Task.Delay(1000);
+        CallPythonScript(Command.RotateCW, 111);
         await Console.Out.WriteLineAsync("Function 1 complete -- <" + DateTime.Now + ">");
 
     }
