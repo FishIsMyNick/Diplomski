@@ -42,7 +42,7 @@ namespace MotorClient
 
         #region CONNECTION
         //private static string serverIPv4 = "188.2.24.251";
-        private static string serverIPv4 = "127.0.0.1";
+        private static string serverIPv4 = "192.168.0.100";
         private int serverPort = 12345;
 
         private int ConnectToServer()
@@ -112,13 +112,23 @@ namespace MotorClient
 
         private void btn_cmd1_Click(object sender, RoutedEventArgs e)
         {
-            AddLineToCmdOutput("CLIENT: Sending komanda 1");
-            SendCommand("komanda 1");
+            AddLineToCmdOutput("CLIENT: Sending rotate clockwise");
+            string cmd = "RCW";
+            float speed = 0;
+            float.TryParse(tb_speed_cw.Text, out speed);
+            float duration = 0;
+            float.TryParse(tb_duration_cw.Text, out duration);
+            SendCommand($"{cmd} {speed} {duration}");
         }
         private void btn_cmd2_Click(object sender, RoutedEventArgs e)
         {
-            AddLineToCmdOutput("CLIENT: Sending komanda 2");
-            SendCommand("komanda 2");
+            AddLineToCmdOutput("CLIENT: Sending rotate counter clockwise");
+            string cmd = "RCCW";
+            float speed = 0;
+            float.TryParse(tb_speed_ccw.Text, out speed);
+            float duration = 0;
+            float.TryParse(tb_duration_ccw.Text, out duration);
+            SendCommand($"{cmd} {speed} {duration}");
         }
 
         #endregion
@@ -142,5 +152,9 @@ namespace MotorClient
             listening = false;
         }
 
+        private void tb_speed_cw_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

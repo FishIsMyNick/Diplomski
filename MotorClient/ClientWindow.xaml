@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MotorClient"
         mc:Ignorable="d"
         Title="ClientWindow"
-		MinHeight="500" MinWidth="500" 
+		MinHeight="1000" MinWidth="1000" 
 		MaxHeight="2160" MaxWidth="3840"
 		Closing="Window_Closing">
 		<!--WindowState="Maximized" WindowStyle="None"-->
@@ -35,18 +35,33 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<!--BUTTONS-->
+				<StackPanel Orientation="Vertical" Grid.Column="0" Margin="5">
+					
 				<Button Name="btn_cmd1"
-					Grid.Column="0"
 						Margin="30"
+						Height="70"
 						FontSize="30"
 						Click="btn_cmd1_Click"
-						>CMD1</Button>
-				<Button Name="btn_cmd2"
+						>Rotate CW</Button>
+					<Label FontSize="14">Speed (1-12)</Label>
+					<TextBox x:Name="tb_speed_cw" FontSize="20" Height="50" VerticalAlignment="Center" Text="12" TextChanged="tb_speed_cw_TextChanged"/>
+					<Label FontSize="14">Duration (ms)</Label>
+					<TextBox x:Name="tb_duration_cw" FontSize="20" Height="50" VerticalAlignment="Center" Text="1000"/>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
+
+					<Button Name="btn_cmd2"
 					Grid.Column="1"
 						Margin="30"
+						Height="70"
 						FontSize="30"
 						Click="btn_cmd2_Click"
-						>CMD2</Button>
+						>Rotate CCW</Button>
+					<Label FontSize="14">Speed (1-12)</Label>
+					<TextBox x:Name="tb_speed_ccw" FontSize="20" Height="50" VerticalAlignment="Center" Text="12"/>
+					<Label FontSize="14">Duration (ms)</Label>
+					<TextBox x:Name="tb_duration_ccw" FontSize="20" Height="50" VerticalAlignment="Center" Text="1000"/>
+				</StackPanel>
 			</Grid>
 			<!--CONSOLE-->
 			<ScrollViewer Name="consoleOutput"
@@ -54,28 +69,11 @@
 						Margin="10"
 						Padding="10"
 						FontFamily="Roboto"
-						FontSize="24"
+						FontSize="14"
 						Foreground="White"
 						Background="Black"
 					   
 						>
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
-				Sample text
 				Sample text
 			</ScrollViewer>
 		</Grid>
