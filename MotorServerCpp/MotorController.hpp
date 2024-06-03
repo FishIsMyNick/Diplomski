@@ -1,5 +1,7 @@
 #include <wiringPi.h>
 #include <cmath>
+#include <chrono>
+#include <thread>
 #include "MotorMonitor.hpp"
 
 int motorCW = 17;
@@ -7,11 +9,14 @@ int motorCCW = 27;
 int detectMagnet = 5;
 int testPin = 26;
 
-const int maxSpeed = 24;  // equivalent 12V
+const int maxSpeed = 120;  // equivalent 12V
+const float maxRPM = 270.0f; 
+const float RPM_to_V_factor = maxSpeed / maxRPM;
+
 int lastPowerSet;
 int lastDirection;
 
-int acceleration = 1; // of 10
+//int acceleration = 1; // of 10
 
 
 int frequency = 1000; // Hz
@@ -51,7 +56,7 @@ int setupGPIO(){
     lastPowerSet = 0;
     lastDirection = motorCW;
     
-    allowDebugSpeed = true;
+    allowDebugSpeed = false;
 
     return 0;
 }
@@ -85,10 +90,20 @@ void generatePowerSignal(int speed) {
 }
 
 void powerMotorPWM(int direction, int speed) {
+    int T = maxSpeed;
+    int on = speed > T ? T : speed;
+    int off = T - on;
+    std::chrono::microseconds onTime(on);
+    std::chrono::microseconds offTime(off);
+    
+    
     digitalWrite(direction, HIGH);
-    delay(tick * speed);
+    auto start = std::chrono::high_resolution_clock::now();
+    while(std::chrono::high_resolution_clock::now() - start < onTime) {}
+    
     digitalWrite(direction, LOW);
-    delay(tick * (maxSpeed - speed));
+    start = std::chrono::high_resolution_clock::now();
+    while(std::chrono::high_resolution_clock::now() - start < offTime) {}
 }
 
 void powerMotorSignal(int direction, int speed) {
@@ -100,28 +115,29 @@ void powerMotorSignal(int direction, int speed) {
         else { 
             digitalWrite(direction, LOW);
         }
+        //std::cerr << "VOLT: " << getLoadVoltage() << "\tCURR: " << getLoadCurrent() << "\n";
         delay(tick);
     }
 }
 
-void accelerateMotorSignal(int direction, int speed) {
+void accelerateMotorSignal(int direction, int speed, int acceleration = 10) {
     unsigned long stepStartTime = millis();
-    while(stepStartTime + acceleration * 10 > millis()) {
+    while(stepStartTime + (11 - acceleration) * 2 > millis()) {
         powerMotorSignal(direction, speed);
     }
 }
-void accelerateMotorPWM(int direction, int speed) {
+void accelerateMotorPWM(int direction, int speed, int acceleration = 10) {
     unsigned long stepStartTime = millis();
-    while(stepStartTime + acceleration * 100 > millis()) {
+    while(stepStartTime + (11 - acceleration) * 2 > millis()) {
         powerMotorPWM(direction, speed);
     }
 }
-void accelerateMotor(int direction, int speed) {
-    accelerateMotorSignal(direction, speed);
+void accelerateMotor(int direction, int speed, int acceleration = 10) {
+    accelerateMotorPWM(direction, speed, acceleration);
 }
 
 /// Stops the motor gradually. 
-int stopMotor(int maxDuration = 2000) {
+int stopMotor(int maxDuration = 2000, int acceleration = 10) {
     int direction = lastDirection;
     int speed = lastPowerSet;
     if(speed == 0) return 0;
@@ -132,8 +148,8 @@ int stopMotor(int maxDuration = 2000) {
             speed = --lastPowerSet;
         else break;
         
-        if(allowDebugSpeed) std::cerr << "speed: " << speed << "\n";
-        accelerateMotor(direction, speed);
+        //if(allowDebugSpeed) std::cerr << "speed: " << speed << "\n";
+        accelerateMotor(direction, speed, acceleration);
     }
     
     digitalWrite(direction, LOW);
@@ -147,7 +163,7 @@ int stopMotor(int maxDuration = 2000) {
 /// direction   => should pass values: motorCW or motorCCW
 /// speed       => desired motor output speed, fixed to [0.0 - 12.0]
 /// mDuration   => desired duration in ms
-int turnMotor(int direction, int desiredSpeed, float mDuration, bool quickChange = false) {
+int turnMotor(int direction, int desiredSpeed, float mDuration, int acceleration = 10, bool quickChange = false) {
     unsigned long startTime = millis();
     if (!quickChange && direction != lastDirection) {
         stopMotor();
@@ -160,8 +176,8 @@ int turnMotor(int direction, int desiredSpeed, float mDuration, bool quickChange
         else if (lastPowerSet < desiredSpeed) 
             speed = ++lastPowerSet;
             
-        if(allowDebugSpeed) std::cerr << "speed: " << speed << "\n";
-        accelerateMotor(direction, speed);
+        //if(allowDebugSpeed) std::cerr << "speed: " << speed << "\n";
+        accelerateMotor(direction, speed, acceleration);
     }
     lastDirection = direction;
     
@@ -171,20 +187,36 @@ int turnMotor(int direction, int desiredSpeed, float mDuration, bool quickChange
 }
 
 /// Turns the motor clockwise
-int turnCW(int speed, float mDuration, bool quickChange = false) {
-    return turnMotor(motorCW, speed, mDuration, quickChange);
-}
-int turnCW(float speed, float mDuration, bool quickChange = false) {
-    return turnCW(static_cast<int>(speed), mDuration, quickChange);
+int turnCW_V(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+    if (speed > 12.0f) speed = 12.0f;
+    return turnMotor(motorCW, std::round(speed * 10), mDuration, acceleration, quickChange);
 }
 
+int turnCW_S(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+    if (speed > maxRPM) speed = maxRPM;
+    float outSpeed = std::round((speed * RPM_to_V_factor));
+    //std::cerr << outSpeed << " " << std::endl;
+    return turnMotor(motorCW, outSpeed, mDuration, acceleration, quickChange);
+}
+//int turnCW_V(float speed, float mDuration, bool quickChange = false) {
+//    return turnCW_V(static_cast<int>(speed), mDuration, quickChange);
+//}
+
 /// Turns the motor counter clockwise
-int turnCCW(int speed, float mDuration, bool quickChange = false) {
-    return turnMotor(motorCCW, speed, mDuration, quickChange);
+int turnCCW_V(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+    if (speed > 12.0f) speed = 12.0f;
+    return turnMotor(motorCCW, std::round(speed * 10), mDuration, acceleration, quickChange);
 }
-int turnCCW(float speed, float mDuration, bool quickChange = false) {
-    return turnCCW(static_cast<int>(speed), mDuration, quickChange);
+
+int turnCCW_S(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+    if (speed > maxRPM) speed = maxRPM;
+    float outSpeed = std::round((speed * RPM_to_V_factor));
+    //td::cerr << outSpeed << std::endl;
+    return turnMotor(motorCCW, outSpeed, mDuration, acceleration, quickChange);
 }
+//int turnCCW_V(float speed, float mDuration, bool quickChange = false) {
+//    return turnCCW_V(static_cast<int>(speed), mDuration, quickChange);
+//}
 
 
 ////////////////////////////////////////////////////////////////////////

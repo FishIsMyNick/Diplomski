@@ -20,7 +20,7 @@ const int I_size = 10000;
 float I_buffer[I_size] = {0.0f};
 
 bool detectMagnetRE = false;
-bool allowDebugRPM = false;
+bool allowDebugRPM = true;
 
 ////////////////////////////////////////////////////////////////////////
 

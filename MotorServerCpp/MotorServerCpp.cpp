@@ -1,11 +1,9 @@
 /// PINS USED
-/// 01 => INA219 vcc pin ( 3.3V )
-/// 03 => INA219 SDA pin 
-/// 05 => INA219 SCL pin
 /// 02 => motor driver power ( 5V )
-/// 11 => motor pin CW ( yellow )
-/// 13 => motor pin CCW ( green )
-/// 
+/// 11 => motor pin CW ( black/yellow )
+/// 13 => motor pin CCW ( white/green )
+/// 17 => Holl sensor vcc
+/// 29 => Holl sensor Din
 
 #include <iostream>
 #include <cstring>
@@ -22,40 +20,52 @@
 #include <string>
 #include <fstream>
 #include "MotorController.hpp"
-//#include "MotorMonitor.hpp"
+#include "MotorServerCpp.hpp"
 
 
 //  CORE    ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-enum mCmd {
-    none = 0,
-    rotateCW,
-    rotateCCW,
-    getV,
-    getI,
-    getP,
-    quit
-};
 
-constexpr int PORT = 12345;
+constexpr int recvPort = 12345;
+constexpr int sendPort = 12346;
 constexpr int BUFFER_SIZE = 1024;
 
 std::queue<std::string> messageQueue; // Queue to store received messages
 std::queue<std::tuple<mCmd, float, float>> commandQueue;
 std::mutex messageMutex, processingMutex, executeMutex; // Mutex to synchronize access to the message queue
 
-//  DEBUG   //
-bool serverPrint = false;
-bool inaPrint = true;
-
 ////////////////////////////////////////////////////////////////////////
 
+//  HELPERS ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
+float absoluteValue(float num) {
+    return (num >= 0) ? num : -num;
+}
 
+std::string to_string_with_precision(float value, int precision) {
+    std::string str = std::to_string(value);
+    size_t dot_pos = str.find('.');
+    if(dot_pos != std::string::npos) {
+        str = str.substr(0, dot_pos + precision + 1);
+    }
+    return str;
+}
+
+////////////////////////////////////////////////////////////////////////
 
 //  CONNECTION  ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+int clientSocket;
+
+void sendResponse(const std::string &response) {
+    if (send(clientSocket, response.c_str(), response.size(), 0) < 0) {
+        std::cerr << "SERVER:\tFailed to send response to client\n";
+    } else {
+        std::cerr << "SERVER:\tResponse sent to client.\n";
+    }
+}
 
 int serverLoop() {
     int serverSocket, newSocket;
@@ -73,7 +83,7 @@ int serverLoop() {
     // Set server address
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = inet_addr("192.168.0.100");
-    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_port = htons(recvPort);
     
     // Get the server IP address
     char serverIP[INET_ADDRSTRLEN];
@@ -93,39 +103,49 @@ int serverLoop() {
     while(running) {
         // Listen for incoming connections
         if (listen(serverSocket, 5) < 0) {
-            if (serverPrint) std::cerr << "SERVER:\tListen failed\n";
+            std::cerr << "SERVER:\tListen failed\n";
             return 1;
         }
 
-        if (serverPrint) std::cout << "SERVER:\tServer listening for client connection on " << serverIP << ":" << PORT << std::endl;
+        std::cout << "SERVER:\tServer listening for client connection on " << serverIP << ":" << recvPort << std::endl;
 
         // Accept incoming connection
         if ((newSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &addrSize)) < 0) {
             if (serverPrint) std::cerr << "SERVER:\tAccept failed\n";
             return 1;
         }
+        
         // Get the client IP address
         char clientIP[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(clientAddr.sin_addr), clientIP, INET_ADDRSTRLEN);
-        if (serverPrint) std::cerr << "SERVER:\tClient connected from " << clientIP << '\n';
-
-
+        std::cerr << "SERVER:\tClient connected from " << clientIP << '\n';
+        
+        clientSocket = newSocket;
 
         // Receive data from client
-        
         ssize_t bytesRead;
         while ((bytesRead = recv(newSocket, buffer, BUFFER_SIZE, 0)) > 0) {
-            if (serverPrint) std::cout << "SERVER:\tReceived from client: " << buffer << std::endl;
+            std::cout << "SERVER:\tReceived from client: " << buffer << std::endl;
             std::lock_guard<std::mutex> lock(messageMutex);
             messageQueue.push(buffer);
+            
+            std::tuple<mCmd, float, float> cmd = parseCommand(buffer);
+            std::string response = "<<SERVER>>\tCommand '";
+            response.append(enumToString(std::get<0>(cmd))).append(" ")
+            .append(to_string_with_precision(std::get<1>(cmd), 2)).append("V ")
+            .append(to_string_with_precision(std::get<2>(cmd), -1)).append("ms'\trecieved.");
+            sendResponse(response);
+            
             memset(buffer, 0, BUFFER_SIZE); // Clear buffer
         }
 
         if (bytesRead == 0) {
-            if (serverPrint) std::cout << "SERVER:\tClient disconnected\n";
+            std::cout << "SERVER:\tClient disconnected\n";
+            clientSocket = -1;
         }
         else if (bytesRead == -1) {
-            if (serverPrint) std::cerr << "SERVER:\tReceive failed\n";
+            std::cerr << "SERVER:\tReceive failed\n";
+            clientSocket = -2;
             return 1;
         }
 
@@ -139,6 +159,7 @@ int serverLoop() {
 //  MESSAGE PROCESSING  ////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+/// Get string value from command enumerator
 std::string enumToString(mCmd value) {
     switch(value) {
         case mCmd::none:
@@ -159,6 +180,8 @@ std::string enumToString(mCmd value) {
             return "Unknown";
     }
 }
+
+/// Parse the command recieved from client and return command structure
 std::tuple<mCmd, float, float> parseCommand(std::string message) {
     if(message == "") {
         if (serverPrint) std::cout << "PARSER:\tRecieved empty command.\n";
@@ -209,6 +232,7 @@ std::tuple<mCmd, float, float> parseCommand(std::string message) {
     return ret;
 }
 
+/// Parse the commands recieved from client and push them to the command queue
 void commandProcessingLoop() {
     while (true) {
         while(!messageQueue.empty()) {
@@ -225,6 +249,7 @@ void commandProcessingLoop() {
     }
 }
 
+/// Takes commands from the command queue and executes them
 void commandExecutionLoop() {
     while (true) {
         while(!commandQueue.empty()) {
@@ -232,24 +257,38 @@ void commandExecutionLoop() {
             std::tuple<mCmd, float, float> cmdValPair = commandQueue.front();
             
             mCmd cmd = std::get<0>(cmdValPair);
-            int speed = std::get<1>(cmdValPair);
+            float speed = std::get<1>(cmdValPair);
             float duration = std::get<2>(cmdValPair);
+            
             if (serverPrint) std::cerr << "CMDEXE:\tExecuting " << enumToString(cmd) << '\n';
+            
+            std::string exeString = "<<SERVER>>\tExecuting '";
+            exeString.append(enumToString(cmd)).append(" ")
+            .append(to_string_with_precision(speed, 2)).append("V ")
+            .append(to_string_with_precision(duration, -1)).append("ms'...");
+            
+            sendResponse(exeString);
             
             switch(cmd) {
                 case 1:
-                    turnCW(speed, duration);
+                    turnCW_V(speed, duration);
                     break;
                 case 2:
-                    turnCCW(speed, duration);
+                    turnCCW_V(speed, duration);
                     break;
                 default:
                     break;
             }
             if (serverPrint) std::cerr << "CMDEXE:\tCompleted " << enumToString(cmd) << '\n';
+            std::string compString = "<<SERVER>>\tCompleted '";
+            compString.append(enumToString(cmd)).append(" ")
+            .append(to_string_with_precision(speed, 2)).append("V ")
+            .append(to_string_with_precision(duration, -1)).append("ms'");
+            sendResponse(compString);
             
             commandQueue.pop();
         }
+        stopMotor();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
@@ -263,7 +302,7 @@ void startProgram() {
     ////////////////////////////////////////////////////////////////////
     
     // set up motor monitoring module
-    setupMonitor(100);
+    //setupMonitor(100);
     
     //  start command processing loop
     std::thread commandProcessingThread(commandProcessingLoop);
@@ -276,10 +315,11 @@ void startProgram() {
     
     //  start server listening loop
     std::thread serverThread(serverLoop);
-    serverThread.detach();
+    //serverThread.detach();
+    serverThread.join();
     
     //  get i2c info
-    while(true) {
+    /*while(true) {
         float V;
         float I;
         for(int i = 0; i < 100; i++){
@@ -290,7 +330,7 @@ void startProgram() {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
         //std::cerr << "Vlotage : " << V << "V;\tCurrent: " << I << "\n";
-    }
+    }*/
 }
 
 void testMotor() {
@@ -336,7 +376,7 @@ void testMotor() {
         idleI[i] = refI;
         
         
-        turnCW(12, 5000);
+        turnCW_V(12, 5000);
         V = getAvgVoltage();
         I = getAvgCurrent();
         cwV[i] = V;
@@ -351,7 +391,7 @@ void testMotor() {
         }
         
         
-        turnCCW(12, 5000);
+        turnCCW_V(12, 5000);
         V = getAvgVoltage();
         I = getAvgCurrent();
         
@@ -539,7 +579,7 @@ void testMotor2() {
     setupGPIO();
     setupMonitor(1585);
     
-    turnCCW(12, 2000);
+    turnCCW_V(12, 2000);
     
     printSortedVoltage();
     printSortedCurrent();
@@ -690,9 +730,6 @@ void testMotor3() {
     */
 }
 
-float absoluteValue(float num) {
-    return (num >= 0) ? num : -num;
-}
 
 void testMotor4() {
     int calibrationValue = 1858;
@@ -788,20 +825,61 @@ void testMotor5() {
     
     float rpm = 0;
     
-    std::thread speedMeasureThread(measureSpeed2, &rpm, 100);
+    std::thread speedMeasureThread(measureSpeed2, &rpm, 50);
     speedMeasureThread.detach();
     
-    turnCCW(24, 2000);
-    turnCW(24, 2000);
-    //turnCCW(4, 2000);
-    //turnCW(14, 2000);
-    //turnCCW(22, 2000);
-    //turnCW(2, 2000);
+    turnCCW_V(24, 2000, true);
+    turnCW_V(24, 2000, true);
+    turnCCW_V(4, 2000, true);
+    turnCW_V(14, 2000, true);
+    turnCCW_V(22, 2000, true);
+    turnCW_V(2, 2000, true);
+    stopMotor();
+}
+
+float getLoadTest() {
+    return getLoadCurrent();
+}
+
+void testMotor6() {
+    setupGPIO();
+    setupMonitor(4096);
+    unsigned long t = millis(); 
+    int uTime = 2000;
+    
+    while(t + uTime > millis()) {
+        std::cerr << "VOLT: " << getLoadVoltage() << "\tCURR: " << getLoadTest() << "\n";
+        delay(50);
+    }
+}
+
+void testMotor7() {
+    setupGPIO();
+    setupMonitor(4096);
+    
+    digitalWrite(motorCCW, HIGH);
+    
+    unsigned long t = millis(); 
+    int uTime = 1000;
+    
+    while(t + uTime > millis()) {
+        std::cerr << "VOLT: " << getLoadVoltage() << "\tCURR: " << getLoadTest() << "\n";
+        delay(50);
+    }
+    digitalWrite(motorCCW, LOW);
+}
+void testMotor8() {
+    setupGPIO();
+    setupMonitor(4096);
+    
+    turnCCW_V(12, 5000);
+    turnCW_V(12, 5000);
+    //turnCW_S(400.0, 2000);
     stopMotor();
 }
 
 
 int main() {
-    testMotor5();
-    //startProgram();
+    //testMotor8();
+    startProgram();
 }
