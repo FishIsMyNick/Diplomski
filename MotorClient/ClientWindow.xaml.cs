@@ -24,11 +24,17 @@ namespace MotorClient
     {
         private bool debug = false;
 
-        private TcpClient clientSocket;
-        private NetworkStream networkStream;
+        private TcpClient clientMessageSocket, clientSpeedSocket;
+        private NetworkStream messageStream, speedStream;
 
         private bool listening = false;
         private string cmdOutput;
+        private string spdOutput;
+
+        private bool measureSpeed = false;
+
+        private SolidColorBrush greenColor = new SolidColorBrush(Colors.Green);
+        private SolidColorBrush redColor = new SolidColorBrush(Colors.Red);
 
         private List<string> cmdQueue;
         public ClientWindow()
@@ -36,8 +42,11 @@ namespace MotorClient
             cmdOutput = "";
             cmdQueue = new List<string>();
 
+            spdOutput = string.Empty;
+
             InitializeComponent();
             RefreshCmdOutput();
+            RefreshSpdOutput();
 
 
             if (debug) return;
@@ -57,15 +66,17 @@ namespace MotorClient
         #region CONNECTION
         //private static string serverIPv4 = "188.2.24.251";
         private static string serverIPv4 = "192.168.0.100";
-        private int serverPort = 12345;
+        private int messagePort = 12345, speedPort = 12346;
 
         private int ConnectToServer()
         {
             try
             {
-                clientSocket = new TcpClient(serverIPv4, serverPort);
-                networkStream = clientSocket.GetStream();
-                return clientSocket == null ? 1 : 0;
+                clientMessageSocket = new TcpClient(serverIPv4, messagePort);
+                clientSpeedSocket = new TcpClient(serverIPv4, speedPort);
+                messageStream = clientMessageSocket.GetStream();
+                speedStream = clientSpeedSocket.GetStream();
+                return clientMessageSocket == null || clientSpeedSocket == null ? 1 : 0;
             }
             catch
             {
@@ -76,8 +87,8 @@ namespace MotorClient
         {
             if (debug) return 0;
             SendCommand("quit");
-            if (clientSocket != null)
-                clientSocket.Close();
+            if (clientMessageSocket != null)
+                clientMessageSocket.Close();
             return 0;
         }
         private bool sending = false;
@@ -108,8 +119,8 @@ namespace MotorClient
 
                         await Task.Delay(100);
                         byte[] sendBytes = Encoding.ASCII.GetBytes(command);
-                        await networkStream.WriteAsync(sendBytes, 0, sendBytes.Length);
-                        networkStream.Flush();
+                        await messageStream.WriteAsync(sendBytes, 0, sendBytes.Length);
+                        messageStream.Flush();
                         AddLineToCmdOutput($"<<CLIENT>>\tSent command \"{command}\" to server.");
                     }
 
@@ -123,7 +134,7 @@ namespace MotorClient
                 await Task.Delay(10);
             }
         }
-        private async Task<int> RecieveResponce()
+        private async Task<int> RecieveMessages()
         {
             try
             {
@@ -133,7 +144,7 @@ namespace MotorClient
                     return 0;
                 }
                 byte[] bytesFrom = new byte[1024];
-                await networkStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
+                await messageStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
                 string dataFromServer = Encoding.ASCII.GetString(bytesFrom);
                 dataFromServer = dataFromServer.Split('\0')[0];
 
@@ -153,12 +164,43 @@ namespace MotorClient
                 return 2;
             }
         }
+        private async Task<int> RecieveSpeed()
+        {
+            try
+            {
+                if (debug)
+                {
+                    AddLineToSpdOutput("Recieved mock speed");
+                    return 0;
+                }
+                byte[] bytesFrom = new byte[1024];
+                await speedStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
+                string dataFromServer = Encoding.ASCII.GetString(bytesFrom);
+                dataFromServer = dataFromServer.Split('\0')[0];
+
+                Console.WriteLine("Server response: " + dataFromServer);
+                AddLineToSpdOutput(dataFromServer);
+
+                return dataFromServer.Length > 0 ? 0 : 1;
+            }
+            catch (NullReferenceException nrex)
+            {
+                await Console.Out.WriteLineAsync(nrex.Message);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+                return 2;
+            }
+        }
         private async Task ListenToServer()
         {
             while (listening)
             {
-                RecieveResponce();
-                await Task.Delay(500);
+                RecieveMessages();
+                RecieveSpeed();
+                await Task.Delay(100);
             }
 
         }
@@ -209,6 +251,27 @@ namespace MotorClient
             consoleOutput.Content = cmdOutput;
         }
 
+        private void AddLineToSpdOutput(string line = "")
+        {
+            spdOutput = line + "\n";
+            RefreshSpdOutput();
+        }
+        private void RefreshSpdOutput()
+        {
+            speedOutput.Text = "Brzina motora (RPM):\n" + spdOutput;
+        }
+
+        private void btn_measureSpeed_Click(object sender, RoutedEventArgs e)
+        {
+            SendCommand("TS");
+            ToggleSpeedMeasure();
+        }
+        private void ToggleSpeedMeasure()
+        {
+            measureSpeed = !measureSpeed;
+            lb_measureSpeed.Content = measureSpeed ? "Uključeno" : "Isključeno";
+            lb_measureSpeed.Foreground = measureSpeed ? greenColor : redColor;
+        }
         #endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -263,5 +326,6 @@ namespace MotorClient
                 lv_komande.Items.RemoveAt(lv_komande.Items.Count - 1);
             }
         }
+
     }
 }

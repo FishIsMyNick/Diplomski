@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MotorClient"
         mc:Ignorable="d"
-        Title="ClientWindow"
+        Title="Klijentska aplikacija"
 		Height="1000" Width="1260" 
 		MaxHeight="2160" MaxWidth="3840"
 		Closing="Window_Closing">
@@ -24,8 +24,9 @@
 		<!--INTERACTION AREA-->
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="50*"/>
 				<RowDefinition Height="1*"/>
-				<RowDefinition Height="1*"/>
+				<RowDefinition Height="50*"/>
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0">
 				<Grid.ColumnDefinitions>
@@ -46,7 +47,7 @@
 					<TextBox x:Name="tb_speed_cw" FontSize="20" Height="50" VerticalAlignment="Center" VerticalContentAlignment="Center" Text="12"/>
 					<Label FontSize="14">Trajanje (ms)</Label>
 					<TextBox x:Name="tb_duration_cw" FontSize="20" Height="50" VerticalAlignment="Center"  VerticalContentAlignment="Center" Text="1000"/>
-					<Button x:Name="btn_addCwCmd" Margin="10 30" Height="100" FontSize="30" Content="Dodaj komandu&#10;        u red" HorizontalContentAlignment="Center" Click="btn_addCwCmd_Click"/>
+					<Button x:Name="btn_addCwCmd" Margin="10 30" Height="100" FontSize="30" Content="Dodaj komandu&#10;        u red ==>" HorizontalContentAlignment="Center" Click="btn_addCwCmd_Click"/>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
 
@@ -61,7 +62,7 @@
 					<TextBox x:Name="tb_speed_ccw" FontSize="20" Height="50" VerticalAlignment="Center"  VerticalContentAlignment="Center" Text="12"/>
 					<Label FontSize="14">Trajanje (ms)</Label>
 					<TextBox x:Name="tb_duration_ccw" FontSize="20" Height="50" VerticalAlignment="Center"  VerticalContentAlignment="Center" Text="1000"/>
-					<Button x:Name="btn_addCcwCmd" Margin="10 30" Height="100" FontSize="30" Content="Dodaj komandu&#10;        u red" HorizontalContentAlignment="Center" Click="btn_addCcwCmd_Click"/>
+					<Button x:Name="btn_addCcwCmd" Margin="10 30" Height="100" FontSize="30" Content="Dodaj komandu&#10;        u red ==>" HorizontalContentAlignment="Center" Click="btn_addCcwCmd_Click"/>
 				</StackPanel>
 				<Grid Grid.Column="2" Height="492" VerticalAlignment="Top">
 					<Grid.RowDefinitions>
@@ -70,7 +71,7 @@
 						<RowDefinition Height="7*"/>
 					</Grid.RowDefinitions>
 					<Label FontSize="30">Red komandi:</Label>
-					<ListView Grid.Row="1" x:Name="lv_komande" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+					<ListView Grid.Row="1" x:Name="lv_komande" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
 						<ListView.View>
 							<GridView>
 								<GridViewColumn DisplayMemberBinding="{Binding Komanda}" Width="200" Header="Komanda"></GridViewColumn>
@@ -84,14 +85,21 @@
 							<ColumnDefinition Width="1*"/>
 							<ColumnDefinition Width="1*"/>
 						</Grid.ColumnDefinitions>
-						<Button x:Name="btn_sendCommands" Grid.Column="0" FontSize="30" Height="70" Width="250" VerticalAlignment="Center" Click="btn_sendCommands_Click" Content="Pošalji komande"/>
-						<Button x:Name="btn_removeCommand" Grid.Column="1" FontSize="30" Height="70" Width="250" VerticalAlignment="Center" Background="LightCoral" Content="Obriši komandu" Click="btn_removeCommand_Click"/>
+						<Button x:Name="btn_sendCommands" Grid.Column="0" FontSize="30" Height="65" Width="250" VerticalAlignment="Center" Click="btn_sendCommands_Click" Content="Pošalji komande"/>
+						<Button x:Name="btn_removeCommand" Grid.Column="1" FontSize="30" Height="65" Width="250" VerticalAlignment="Center" Background="LightCoral" Content="Obriši komandu" Click="btn_removeCommand_Click"/>
 					</Grid>
 				</Grid>
 			</Grid>
+			<Grid Grid.Row="1" Background="LightGray"/>
+			<Grid Grid.Row="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="70*"/>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="30*"/>
+				</Grid.ColumnDefinitions>
 			<!--CONSOLE-->
-			<ScrollViewer Name="consoleOutput"
-						Grid.Row="1" 
+				<ScrollViewer Name="consoleOutput"
+						Grid.Column="0" 
 						Margin="10"
 						Padding="10"
 						FontFamily="Consolas"
@@ -101,7 +109,38 @@
 					   
 						>
 				Sample text
-			</ScrollViewer>
+				</ScrollViewer>
+				<Grid Grid.Column="1" Background="LightGray"/>
+				<Grid Grid.Column="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="2*"/>
+						<RowDefinition Height="2*"/>
+						<RowDefinition Height="8*"/>
+					</Grid.RowDefinitions>
+					<Grid Grid.Row="0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="60*"/>
+							<ColumnDefinition Width="40*"/>
+						</Grid.ColumnDefinitions>
+						<Button x:Name="btn_measureSpeed" Margin="5" FontSize="30" Content="Merenje brzine" Click="btn_measureSpeed_Click"/>
+						<Label Name="lb_measureSpeed" Grid.Column="1" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red">Isključeno</Label>
+					</Grid>
+
+					<TextBlock Name="speedOutput"
+						Grid.Row="1" 
+						Margin="10"
+						Padding="10"
+						FontFamily="Consolas"
+						FontSize="20"
+						Foreground="White"
+						Background="Black"
+					    Height="60"
+								  
+						>
+						Sample text
+					</TextBlock>
+				</Grid>
+			</Grid>
 		</Grid>
 	</Grid>
 </Window>
