@@ -19,10 +19,3 @@ E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\MotorClient.
 E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\ref\MotorClient.dll
 E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\ClientWindow.g.cs
 E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\ClientWindow.baml
-E:\Fax\_dipl\Project\Diplomski\MotorClient\bin\Debug\net8.0-windows\MotorServer.deps.json
-E:\Fax\_dipl\Project\Diplomski\MotorClient\bin\Debug\net8.0-windows\MotorServer.runtimeconfig.json
-E:\Fax\_dipl\Project\Diplomski\MotorClient\bin\Debug\net8.0-windows\MotorServer.exe
-E:\Fax\_dipl\Project\Diplomski\MotorClient\bin\Debug\net8.0-windows\MotorServer.dll
-E:\Fax\_dipl\Project\Diplomski\MotorClient\bin\Debug\net8.0-windows\MotorServer.pdb
-E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\MotorClient.csproj.AssemblyReference.cache
-E:\Fax\_dipl\Project\Diplomski\MotorClient\obj\Debug\net8.0-windows\MotorClient.csproj.CopyComplete
