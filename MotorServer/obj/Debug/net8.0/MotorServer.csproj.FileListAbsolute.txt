@@ -1,0 +1,15 @@
+E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0\MotorServer.exe
+E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0\MotorServer.deps.json
+E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0\MotorServer.runtimeconfig.json
+E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0\MotorServer.dll
+E:\Fax\_dipl\Project\Diplomski\MotorServer\bin\Debug\net8.0\MotorServer.pdb
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.GeneratedMSBuildEditorConfig.editorconfig
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.AssemblyInfoInputs.cache
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.AssemblyInfo.cs
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.csproj.CoreCompileInputs.cache
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.sourcelink.json
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.dll
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\refint\MotorServer.dll
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.pdb
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\MotorServer.genruntimeconfig.cache
+E:\Fax\_dipl\Project\Diplomski\MotorServer\obj\Debug\net8.0\ref\MotorServer.dll

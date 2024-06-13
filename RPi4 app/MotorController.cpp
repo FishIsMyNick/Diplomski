@@ -1,33 +1,16 @@
-#include <wiringPi.h>
-#include <cmath>
-#include <chrono>
-#include <thread>
-#include "MotorMonitor.cpp"
+#include "MotorController.h"
 
-const int motorCW = 17;
-const int motorCCW = 18;
-
-const int maxSpeed = 120;  // equivalent 12V
-
-int lastPowerSet;
-int lastDirection;
-
-const int frequency = 1000; // Hz
-const float tick = 1.0/frequency; // s
-
-int setupController(){
-	// Initialize WiringPi library
-    if (wiringPiSetupGpio() == -1) {
-        // Initialization failed
-        return 1;
-    }
-    
+/// Sets the pins and control variables
+int MotorController::setupController() {
     // Set the motor pins as an output
     pinMode(motorCW, OUTPUT);
-    pinMode(motorCCW, OUTPUT);    
-            
+    pinMode(motorCCW, OUTPUT);
+
     lastPowerSet = 0;
     lastDirection = motorCW;
+    acceleration = 10;
+
+    motorMonitor.setupMonitor();
 
     return 0;
 }
@@ -38,49 +21,63 @@ int setupController(){
 //  MOTOR CONTROL   ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-void powerMotorPWM(int direction, float speed) {
-    int T = maxSpeed;
-    int on = speed > T ? T : speed;
-    int off = T - on;
-    std::chrono::microseconds onTime(on);
-    std::chrono::microseconds offTime(off);
+/// 'acceleration' setter
+void MotorController::setAcceleration(int accel) {
+	acceleration = accel;
+}
+
+/// PWM signal on/off time calculation 
+void MotorController::calculatePWM(float speed) {
+    int T = (tick * 1000000);
+    float t = T / maxSpeed;
     
-    
+    pwmOnTime = speed > maxSpeed ? t * maxSpeed : t * speed;
+    pwmOffTime = T - pwmOnTime;
+}
+
+/// PWM based powering logic
+void MotorController::powerMotorPWM(int direction) {
+    std::chrono::microseconds onTime(pwmOnTime);
+    std::chrono::microseconds offTime(pwmOffTime);
+
     digitalWrite(direction, HIGH);
     auto start = std::chrono::high_resolution_clock::now();
-    while(std::chrono::high_resolution_clock::now() - start < onTime) {}
-    
+    while (std::chrono::high_resolution_clock::now() - start < onTime) {}
+
     digitalWrite(direction, LOW);
     start = std::chrono::high_resolution_clock::now();
-    while(std::chrono::high_resolution_clock::now() - start < offTime) {}
+    while (std::chrono::high_resolution_clock::now() - start < offTime) {}
 }
 
-void accelerateMotor(int direction, float speed, int acceleration = 10) {
-    setMotorInMotion(true);
+/// Gradually accelerates the motor.
+void MotorController::accelerateMotor(int direction, float speed) {
+    motorMonitor.setMotorInMotion(true);
+    calculatePWM(speed);
     unsigned long stepStartTime = millis();
-    while(stepStartTime + (11 - acceleration) * 2 > millis()) {
-        powerMotorPWM(direction, speed);
+    while (stepStartTime + (11 - acceleration) * 2 > millis()) {
+        powerMotorPWM(direction);
     }
 }
 
-/// Stops the motor gradually. 
-int stopMotor(int maxDuration = 2000, int acceleration = 10) {
+/// Gradually stops the motor. 
+int MotorController::stopMotor() {
+	int maxDuration = 2000;
     int direction = lastDirection;
     int speed = lastPowerSet;
-    if(speed == 0) return 0;
+    if (speed == 0) return 0;
     unsigned long startTime = millis();
-    
-    while(millis() - startTime < maxDuration) {
-        if(lastPowerSet > 0) 
+
+    while (millis() - startTime < maxDuration) {
+        if (lastPowerSet > 0)
             speed = --lastPowerSet;
         else break;
-        
-        accelerateMotor(direction, speed, acceleration);
+
+        accelerateMotor(direction, speed);
     }
-    
+
     digitalWrite(direction, LOW);
-    setMotorInMotion(false);
-    
+    motorMonitor.setMotorInMotion(false);
+
     return 0;
 }
 
@@ -90,40 +87,37 @@ int stopMotor(int maxDuration = 2000, int acceleration = 10) {
 /// direction   => should pass values: motorCW or motorCCW
 /// speed       => desired motor output speed, fixed to [0.0 - 12.0]
 /// mDuration   => desired duration in ms
-int turnMotor(int direction, int desiredSpeed, float mDuration, int acceleration = 10, bool quickChange = false) {
+int MotorController::turnMotor(int direction, float desiredSpeed, float mDuration) {
     unsigned long startTime = millis();
-    if (!quickChange && direction != lastDirection) {
+    if (direction != lastDirection) {
         stopMotor();
     }
     int speed = lastPowerSet;
-    
-    while(millis() - startTime < mDuration) {
-        if(lastPowerSet > desiredSpeed) 
+
+    while (millis() - startTime < mDuration) {
+        if (lastPowerSet > desiredSpeed)
             speed = --lastPowerSet;
-        else if (lastPowerSet < desiredSpeed) 
+        else if (lastPowerSet < desiredSpeed)
             speed = ++lastPowerSet;
-        
-        accelerateMotor(direction, speed, acceleration);
+
+        accelerateMotor(direction, speed);
     }
     lastDirection = direction;
-    
+
     digitalWrite(direction, LOW);
-    
+
     return 0;
 }
 
 /// Turns the motor clockwise
-int turnCW(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+int MotorController::turnCW(float speed, float mDuration) {
     if (speed > 12.0f) speed = 12.0f;
-    return turnMotor(motorCW, std::round(speed * 10), mDuration, acceleration, quickChange);
+    return turnMotor(motorCW, std::round(speed * 10), mDuration);
 }
 
 
 /// Turns the motor counter clockwise
-int turnCCW(float speed, float mDuration, int acceleration = 10, bool quickChange = false) {
+int MotorController::turnCCW(float speed, float mDuration) {
     if (speed > 12.0f) speed = 12.0f;
-    return turnMotor(motorCCW, std::round(speed * 10), mDuration, acceleration, quickChange);
+    return turnMotor(motorCCW, std::round(speed * 10), mDuration);
 }
-
-
-////////////////////////////////////////////////////////////////////////

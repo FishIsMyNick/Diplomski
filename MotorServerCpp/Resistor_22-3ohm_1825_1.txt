@@ -1,0 +1,88 @@
+#0
+==>	Avg Voltage: 4.23521	Max V deviation: 5.63521
+==>	Avg Current: -9.53948	MaxI deviation: 15.2565
+
+#1
+==>	Avg Voltage: 3.33204	Max V deviation: 2.64116
+==>	Avg Current: -4.49264	MaxI deviation: 6.73536
+
+#2
+==>	Avg Voltage: 2.92906	Max V deviation: 3.04414
+==>	Avg Current: 0.86424	MaxI deviation: 7.74024
+
+#3
+==>	Avg Voltage: 2.86844	Max V deviation: 3.92396
+==>	Avg Current: 1.81874	MaxI deviation: 5.62274
+
+#4
+==>	Avg Voltage: 2.80945	Max V deviation: 3.16375
+==>	Avg Current: 2.61696	MaxI deviation: 7.44496
+
+#5
+==>	Avg Voltage: 2.85198	Max V deviation: 3.12122
+==>	Avg Current: 1.4536	MaxI deviation: 7.3056
+
+#6
+==>	Avg Voltage: 2.86188	Max V deviation: 3.11132
+==>	Avg Current: 1.41364	MaxI deviation: 5.21764
+
+#7
+==>	Avg Voltage: 2.9372	Max V deviation: 7.9272
+==>	Avg Current: 1.22723	MaxI deviation: 6.56723
+
+#8
+==>	Avg Voltage: 2.85205	Max V deviation: 3.94035
+==>	Avg Current: 2.1418	MaxI deviation: 9.5298
+
+#9
+==>	Avg Voltage: -3.42346	Max V deviation: 6.90506
+==>	Avg Current: 0.872583	MaxI deviation: 33.3466
+
+#10
+==>	Avg Voltage: 0.377921	Max V deviation: 3.13768
+==>	Avg Current: -14.3272	MaxI deviation: 46.3642
+
+#11
+==>	Avg Voltage: -0.218546	Max V deviation: 3.73415
+==>	Avg Current: -3.07678	MaxI deviation: 29.6542
+
+#12
+==>	Avg Voltage: -0.00390843	Max V deviation: 7.60511
+==>	Avg Current: -5.72095	MaxI deviation: 25.9861
+
+#13
+==>	Avg Voltage: 0.0403647	Max V deviation: 2.65604
+==>	Avg Current: -5.67435	MaxI deviation: 11.4407
+
+#14
+==>	Avg Voltage: 0.0927781	Max V deviation: 4.22602
+==>	Avg Current: -8.14833	MaxI deviation: 12.0387
+
+#15
+==>	Avg Voltage: -0.746181	Max V deviation: 3.44258
+==>	Avg Current: 5.0564	MaxI deviation: 20.8914
+
+#16
+==>	Avg Voltage: 0.145227	Max V deviation: 3.37037
+==>	Avg Current: -8.58195	MaxI deviation: 39.083
+
+#17
+==>	Avg Voltage: 0.0567677	Max V deviation: 2.63963
+==>	Avg Current: -7.43484	MaxI deviation: 18.1282
+
+#18
+==>	Avg Voltage: 0.653213	Max V deviation: 3.68159
+==>	Avg Current: -16.4765	MaxI deviation: 48.0015
+
+#19
+==>	Avg Voltage: 0.394274	Max V deviation: 2.30213
+==>	Avg Current: -13.8505	MaxI deviation: 6.84848
+
+
+====================================================
+==	CONCLUSION	==
+
+==>	Overall average Voltage: 1.25229
+==>	Overall average Current: -3.99292
+==>	Overall average Voltage Deviation: 4.01043
+==>	Overall average Current Deviation: 18.1602

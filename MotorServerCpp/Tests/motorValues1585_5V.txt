@@ -1,0 +1,660 @@
+Iteration: 0
+No load:	Voltage: -5.51896 V	Current: -0.420555 mA
+CW:		Voltage: 1.64041 V	Current: 0.0673706 mA
+CCW:		Voltage: 1.36126 V	Current: -0.0803 mA
+
+Iteration: 1
+No load:	Voltage: -1.47128 V	Current: -0.416613 mA
+CW:		Voltage: -0.0519993 V	Current: -0.0176714 mA
+CCW:		Voltage: 1.666 V	Current: -0.0481784 mA
+
+Iteration: 2
+No load:	Voltage: -1.41066 V	Current: -0.429515 mA
+CW:		Voltage: 0.295338 V	Current: 0.0114354 mA
+CCW:		Voltage: 1.2269 V	Current: -0.0986696 mA
+
+Iteration: 3
+No load:	Voltage: -1.42377 V	Current: -0.437451 mA
+CW:		Voltage: 0.400188 V	Current: 0.00662998 mA
+CCW:		Voltage: 2.00022 V	Current: -0.0822364 mA
+
+Iteration: 4
+No load:	Voltage: -1.50732 V	Current: -0.430078 mA
+CW:		Voltage: -0.0257913 V	Current: -0.0977692 mA
+CCW:		Voltage: 1.23674 V	Current: -0.0169977 mA
+
+Iteration: 5
+No load:	Voltage: -1.5319 V	Current: -0.427006 mA
+CW:		Voltage: 0.203586 V	Current: 0.0885364 mA
+CCW:		Voltage: 1.35142 V	Current: 0.0847298 mA
+
+Iteration: 6
+No load:	Voltage: -1.44179 V	Current: -0.429822 mA
+CW:		Voltage: -0.00286163 V	Current: -0.0260062 mA
+CCW:		Voltage: 1.24164 V	Current: -0.00527142 mA
+
+Iteration: 7
+No load:	Voltage: -1.40574 V	Current: -0.428952 mA
+CW:		Voltage: -0.130642 V	Current: -0.119607 mA
+CCW:		Voltage: 1.78067 V	Current: -0.0858096 mA
+
+Iteration: 8
+No load:	Voltage: -1.39264 V	Current: -0.425061 mA
+CW:		Voltage: 0.372345 V	Current: 0.0875804 mA
+CCW:		Voltage: 1.85112 V	Current: 0.00301659 mA
+
+Iteration: 9
+No load:	Voltage: -1.40247 V	Current: -0.417073 mA
+CW:		Voltage: 0.0954663 V	Current: -0.141674 mA
+CCW:		Voltage: 1.67254 V	Current: 0.0548516 mA
+
+Iteration: 10
+No load:	Voltage: -1.43687 V	Current: -0.423985 mA
+CW:		Voltage: -0.0962433 V	Current: -0.0436508 mA
+CCW:		Voltage: 0.609215 V	Current: 0.0654978 mA
+
+Iteration: 11
+No load:	Voltage: -1.38444 V	Current: -0.441035 mA
+CW:		Voltage: 0.152794 V	Current: -0.0105408 mA
+CCW:		Voltage: 1.44318 V	Current: 0.131642 mA
+
+Iteration: 12
+No load:	Voltage: -1.38444 V	Current: -0.425061 mA
+CW:		Voltage: 0.242905 V	Current: 0.0567928 mA
+CCW:		Voltage: 0.718993 V	Current: 0.0902648 mA
+
+Iteration: 13
+No load:	Voltage: -1.42213 V	Current: -0.423934 mA
+CW:		Voltage: -0.0126759 V	Current: -0.0366876 mA
+CCW:		Voltage: 1.5333 V	Current: -0.0760768 mA
+
+Iteration: 14
+No load:	Voltage: -1.40247 V	Current: -0.427569 mA
+CW:		Voltage: 0.0741431 V	Current: -0.0994616 mA
+CCW:		Voltage: 0.188163 V	Current: -0.00195922 mA
+
+Iteration: 15
+No load:	Voltage: -1.34676 V	Current: -0.433048 mA
+CW:		Voltage: 0.00206722 V	Current: -0.0822279 mA
+CCW:		Voltage: 1.27113 V	Current: 0.0516095 mA
+
+Iteration: 16
+No load:	Voltage: -1.33529 V	Current: -0.425214 mA
+CW:		Voltage: 0.113476 V	Current: 0.0206812 mA
+CCW:		Voltage: 0.997528 V	Current: -0.169487 mA
+
+Iteration: 17
+No load:	Voltage: -1.38772 V	Current: -0.429874 mA
+CW:		Voltage: -0.0290592 V	Current: 0.0383774 mA
+CCW:		Voltage: 0.0456146 V	Current: 0.132151 mA
+
+Iteration: 18
+No load:	Voltage: -1.37298 V	Current: -0.439397 mA
+CW:		Voltage: 0.229799 V	Current: 0.144043 mA
+CCW:		Voltage: 1.08764 V	Current: 0.0761848 mA
+
+Iteration: 19
+No load:	Voltage: -1.32055 V	Current: -0.418353 mA
+CW:		Voltage: 0.00698571 V	Current: -0.004745 mA
+CCW:		Voltage: 0.184872 V	Current: 0.0289674 mA
+
+Iteration: 20
+No load:	Voltage: -1.42213 V	Current: -0.426392 mA
+CW:		Voltage: 0.0118881 V	Current: -0.00533581 mA
+CCW:		Voltage: 0.653473 V	Current: 0.042277 mA
+
+Iteration: 21
+No load:	Voltage: -1.36151 V	Current: -0.420299 mA
+CW:		Voltage: -0.132295 V	Current: 0.208593 mA
+CCW:		Voltage: 0.581376 V	Current: 0.034297 mA
+
+Iteration: 22
+No load:	Voltage: -1.31891 V	Current: -0.438065 mA
+CW:		Voltage: -0.0995208 V	Current: -0.020648 mA
+CCW:		Voltage: 1.51034 V	Current: -0.100812 mA
+
+Iteration: 23
+No load:	Voltage: -1.28942 V	Current: -0.428184 mA
+CW:		Voltage: -0.207642 V	Current: -0.0221014 mA
+CCW:		Voltage: 1.18594 V	Current: 0.0852036 mA
+
+Iteration: 24
+No load:	Voltage: -1.3484 V	Current: -0.417176 mA
+CW:		Voltage: -0.374769 V	Current: -0.00698584 mA
+CCW:		Voltage: 0.648535 V	Current: 0.0363589 mA
+
+Iteration: 25
+No load:	Voltage: -1.3697 V	Current: -0.439704 mA
+CW:		Voltage: -0.237151 V	Current: -0.182735 mA
+CCW:		Voltage: 0.899229 V	Current: -0.174537 mA
+
+Iteration: 26
+No load:	Voltage: -1.33857 V	Current: -0.425931 mA
+CW:		Voltage: -0.994101 V	Current: 0.0486236 mA
+CCW:		Voltage: 0.853344 V	Current: 0.0905196 mA
+
+Iteration: 27
+No load:	Voltage: -1.28614 V	Current: -0.421989 mA
+CW:		Voltage: -0.527147 V	Current: 0.0367098 mA
+CCW:		Voltage: 1.07945 V	Current: -0.016855 mA
+
+Iteration: 28
+No load:	Voltage: -1.32055 V	Current: -0.422347 mA
+CW:		Voltage: -0.129024 V	Current: -0.040815 mA
+CCW:		Voltage: 1.2908 V	Current: 0.0880186 mA
+
+Iteration: 29
+No load:	Voltage: -1.32055 V	Current: -0.422501 mA
+CW:		Voltage: -0.871215 V	Current: -0.129027 mA
+CCW:		Voltage: 1.80197 V	Current: 0.011327 mA
+
+
+
+///////////////////////////////////////////////////////
+
+AVERAGES
+
+IDLE:	Voltage: -1.52253 V	Current: -0.427073 mA
+CW:	Voltage: -0.00269141 V	Current: -0.0090772 mA
+CCW:	Voltage: 1.13242 V	Current: 0.00499091 mA
+
+
+
+///////////////////////////////////////////////////////
+
+Sort By Best CW Voltage
+calibration value: 26
+CW		Voltage: -0.994101 V	Current: 0.0486236 mA
+CCW		Voltage: 0.853344 V	Current: 0.0905196 mA
+
+calibration value: 29
+CW		Voltage: -0.871215 V	Current: -0.129027 mA
+CCW		Voltage: 1.80197 V	Current: 0.011327 mA
+
+calibration value: 27
+CW		Voltage: -0.527147 V	Current: 0.0367098 mA
+CCW		Voltage: 1.07945 V	Current: -0.016855 mA
+
+calibration value: 24
+CW		Voltage: -0.374769 V	Current: -0.00698584 mA
+CCW		Voltage: 0.648535 V	Current: 0.0363589 mA
+
+calibration value: 25
+CW		Voltage: -0.237151 V	Current: -0.182735 mA
+CCW		Voltage: 0.899229 V	Current: -0.174537 mA
+
+calibration value: 23
+CW		Voltage: -0.207642 V	Current: -0.0221014 mA
+CCW		Voltage: 1.18594 V	Current: 0.0852036 mA
+
+calibration value: 21
+CW		Voltage: -0.132295 V	Current: 0.208593 mA
+CCW		Voltage: 0.581376 V	Current: 0.034297 mA
+
+calibration value: 7
+CW		Voltage: -0.130642 V	Current: -0.119607 mA
+CCW		Voltage: 1.78067 V	Current: -0.0858096 mA
+
+calibration value: 28
+CW		Voltage: -0.129024 V	Current: -0.040815 mA
+CCW		Voltage: 1.2908 V	Current: 0.0880186 mA
+
+calibration value: 22
+CW		Voltage: -0.0995208 V	Current: -0.020648 mA
+CCW		Voltage: 1.51034 V	Current: -0.100812 mA
+
+calibration value: 10
+CW		Voltage: -0.0962433 V	Current: -0.0436508 mA
+CCW		Voltage: 0.609215 V	Current: 0.0654978 mA
+
+calibration value: 1
+CW		Voltage: -0.0519993 V	Current: -0.0176714 mA
+CCW		Voltage: 1.666 V	Current: -0.0481784 mA
+
+calibration value: 17
+CW		Voltage: -0.0290592 V	Current: 0.0383774 mA
+CCW		Voltage: 0.0456146 V	Current: 0.132151 mA
+
+calibration value: 4
+CW		Voltage: -0.0257913 V	Current: -0.0977692 mA
+CCW		Voltage: 1.23674 V	Current: -0.0169977 mA
+
+calibration value: 13
+CW		Voltage: -0.0126759 V	Current: -0.0366876 mA
+CCW		Voltage: 1.5333 V	Current: -0.0760768 mA
+
+calibration value: 6
+CW		Voltage: -0.00286163 V	Current: -0.0260062 mA
+CCW		Voltage: 1.24164 V	Current: -0.00527142 mA
+
+calibration value: 15
+CW		Voltage: 0.00206722 V	Current: -0.0822279 mA
+CCW		Voltage: 1.27113 V	Current: 0.0516095 mA
+
+calibration value: 19
+CW		Voltage: 0.00698571 V	Current: -0.004745 mA
+CCW		Voltage: 0.184872 V	Current: 0.0289674 mA
+
+calibration value: 20
+CW		Voltage: 0.0118881 V	Current: -0.00533581 mA
+CCW		Voltage: 0.653473 V	Current: 0.042277 mA
+
+calibration value: 14
+CW		Voltage: 0.0741431 V	Current: -0.0994616 mA
+CCW		Voltage: 0.188163 V	Current: -0.00195922 mA
+
+calibration value: 9
+CW		Voltage: 0.0954663 V	Current: -0.141674 mA
+CCW		Voltage: 1.67254 V	Current: 0.0548516 mA
+
+calibration value: 16
+CW		Voltage: 0.113476 V	Current: 0.0206812 mA
+CCW		Voltage: 0.997528 V	Current: -0.169487 mA
+
+calibration value: 11
+CW		Voltage: 0.152794 V	Current: -0.0105408 mA
+CCW		Voltage: 1.44318 V	Current: 0.131642 mA
+
+calibration value: 5
+CW		Voltage: 0.203586 V	Current: 0.0885364 mA
+CCW		Voltage: 1.35142 V	Current: 0.0847298 mA
+
+calibration value: 18
+CW		Voltage: 0.229799 V	Current: 0.144043 mA
+CCW		Voltage: 1.08764 V	Current: 0.0761848 mA
+
+calibration value: 12
+CW		Voltage: 0.242905 V	Current: 0.0567928 mA
+CCW		Voltage: 0.718993 V	Current: 0.0902648 mA
+
+calibration value: 2
+CW		Voltage: 0.295338 V	Current: 0.0114354 mA
+CCW		Voltage: 1.2269 V	Current: -0.0986696 mA
+
+calibration value: 8
+CW		Voltage: 0.372345 V	Current: 0.0875804 mA
+CCW		Voltage: 1.85112 V	Current: 0.00301659 mA
+
+calibration value: 3
+CW		Voltage: 0.400188 V	Current: 0.00662998 mA
+CCW		Voltage: 2.00022 V	Current: -0.0822364 mA
+
+calibration value: 0
+CW		Voltage: 1.64041 V	Current: 0.0673706 mA
+CCW		Voltage: 1.36126 V	Current: -0.0803 mA
+
+
+
+///////////////////////////////////////////////////////
+
+Sort By Best Voltage Difference
+calibration value: 0
+CW		Voltage: 1.64041 V	Current: 0.0673706 mA
+CCW		Voltage: 1.36126 V	Current: -0.0803 mA
+
+calibration value: 3
+CW		Voltage: 0.400188 V	Current: 0.00662998 mA
+CCW		Voltage: 2.00022 V	Current: -0.0822364 mA
+
+calibration value: 8
+CW		Voltage: 0.372345 V	Current: 0.0875804 mA
+CCW		Voltage: 1.85112 V	Current: 0.00301659 mA
+
+calibration value: 9
+CW		Voltage: 0.0954663 V	Current: -0.141674 mA
+CCW		Voltage: 1.67254 V	Current: 0.0548516 mA
+
+calibration value: 7
+CW		Voltage: -0.130642 V	Current: -0.119607 mA
+CCW		Voltage: 1.78067 V	Current: -0.0858096 mA
+
+calibration value: 1
+CW		Voltage: -0.0519993 V	Current: -0.0176714 mA
+CCW		Voltage: 1.666 V	Current: -0.0481784 mA
+
+calibration value: 11
+CW		Voltage: 0.152794 V	Current: -0.0105408 mA
+CCW		Voltage: 1.44318 V	Current: 0.131642 mA
+
+calibration value: 5
+CW		Voltage: 0.203586 V	Current: 0.0885364 mA
+CCW		Voltage: 1.35142 V	Current: 0.0847298 mA
+
+calibration value: 2
+CW		Voltage: 0.295338 V	Current: 0.0114354 mA
+CCW		Voltage: 1.2269 V	Current: -0.0986696 mA
+
+calibration value: 13
+CW		Voltage: -0.0126759 V	Current: -0.0366876 mA
+CCW		Voltage: 1.5333 V	Current: -0.0760768 mA
+
+calibration value: 22
+CW		Voltage: -0.0995208 V	Current: -0.020648 mA
+CCW		Voltage: 1.51034 V	Current: -0.100812 mA
+
+calibration value: 18
+CW		Voltage: 0.229799 V	Current: 0.144043 mA
+CCW		Voltage: 1.08764 V	Current: 0.0761848 mA
+
+calibration value: 15
+CW		Voltage: 0.00206722 V	Current: -0.0822279 mA
+CCW		Voltage: 1.27113 V	Current: 0.0516095 mA
+
+calibration value: 6
+CW		Voltage: -0.00286163 V	Current: -0.0260062 mA
+CCW		Voltage: 1.24164 V	Current: -0.00527142 mA
+
+calibration value: 4
+CW		Voltage: -0.0257913 V	Current: -0.0977692 mA
+CCW		Voltage: 1.23674 V	Current: -0.0169977 mA
+
+calibration value: 28
+CW		Voltage: -0.129024 V	Current: -0.040815 mA
+CCW		Voltage: 1.2908 V	Current: 0.0880186 mA
+
+calibration value: 16
+CW		Voltage: 0.113476 V	Current: 0.0206812 mA
+CCW		Voltage: 0.997528 V	Current: -0.169487 mA
+
+calibration value: 23
+CW		Voltage: -0.207642 V	Current: -0.0221014 mA
+CCW		Voltage: 1.18594 V	Current: 0.0852036 mA
+
+calibration value: 12
+CW		Voltage: 0.242905 V	Current: 0.0567928 mA
+CCW		Voltage: 0.718993 V	Current: 0.0902648 mA
+
+calibration value: 29
+CW		Voltage: -0.871215 V	Current: -0.129027 mA
+CCW		Voltage: 1.80197 V	Current: 0.011327 mA
+
+calibration value: 20
+CW		Voltage: 0.0118881 V	Current: -0.00533581 mA
+CCW		Voltage: 0.653473 V	Current: 0.042277 mA
+
+calibration value: 25
+CW		Voltage: -0.237151 V	Current: -0.182735 mA
+CCW		Voltage: 0.899229 V	Current: -0.174537 mA
+
+calibration value: 27
+CW		Voltage: -0.527147 V	Current: 0.0367098 mA
+CCW		Voltage: 1.07945 V	Current: -0.016855 mA
+
+calibration value: 10
+CW		Voltage: -0.0962433 V	Current: -0.0436508 mA
+CCW		Voltage: 0.609215 V	Current: 0.0654978 mA
+
+calibration value: 21
+CW		Voltage: -0.132295 V	Current: 0.208593 mA
+CCW		Voltage: 0.581376 V	Current: 0.034297 mA
+
+calibration value: 24
+CW		Voltage: -0.374769 V	Current: -0.00698584 mA
+CCW		Voltage: 0.648535 V	Current: 0.0363589 mA
+
+calibration value: 14
+CW		Voltage: 0.0741431 V	Current: -0.0994616 mA
+CCW		Voltage: 0.188163 V	Current: -0.00195922 mA
+
+calibration value: 19
+CW		Voltage: 0.00698571 V	Current: -0.004745 mA
+CCW		Voltage: 0.184872 V	Current: 0.0289674 mA
+
+calibration value: 17
+CW		Voltage: -0.0290592 V	Current: 0.0383774 mA
+CCW		Voltage: 0.0456146 V	Current: 0.132151 mA
+
+calibration value: 26
+CW		Voltage: -0.994101 V	Current: 0.0486236 mA
+CCW		Voltage: 0.853344 V	Current: 0.0905196 mA
+
+
+
+///////////////////////////////////////////////////////
+
+Sort By Best CW Current
+calibration value: 25
+CW		Voltage: -0.237151 V	Current: -0.182735 mA
+CCW		Voltage: 0.899229 V	Current: -0.174537 mA
+
+calibration value: 9
+CW		Voltage: 0.0954663 V	Current: -0.141674 mA
+CCW		Voltage: 1.67254 V	Current: 0.0548516 mA
+
+calibration value: 29
+CW		Voltage: -0.871215 V	Current: -0.129027 mA
+CCW		Voltage: 1.80197 V	Current: 0.011327 mA
+
+calibration value: 7
+CW		Voltage: -0.130642 V	Current: -0.119607 mA
+CCW		Voltage: 1.78067 V	Current: -0.0858096 mA
+
+calibration value: 14
+CW		Voltage: 0.0741431 V	Current: -0.0994616 mA
+CCW		Voltage: 0.188163 V	Current: -0.00195922 mA
+
+calibration value: 4
+CW		Voltage: -0.0257913 V	Current: -0.0977692 mA
+CCW		Voltage: 1.23674 V	Current: -0.0169977 mA
+
+calibration value: 15
+CW		Voltage: 0.00206722 V	Current: -0.0822279 mA
+CCW		Voltage: 1.27113 V	Current: 0.0516095 mA
+
+calibration value: 10
+CW		Voltage: -0.0962433 V	Current: -0.0436508 mA
+CCW		Voltage: 0.609215 V	Current: 0.0654978 mA
+
+calibration value: 28
+CW		Voltage: -0.129024 V	Current: -0.040815 mA
+CCW		Voltage: 1.2908 V	Current: 0.0880186 mA
+
+calibration value: 13
+CW		Voltage: -0.0126759 V	Current: -0.0366876 mA
+CCW		Voltage: 1.5333 V	Current: -0.0760768 mA
+
+calibration value: 6
+CW		Voltage: -0.00286163 V	Current: -0.0260062 mA
+CCW		Voltage: 1.24164 V	Current: -0.00527142 mA
+
+calibration value: 23
+CW		Voltage: -0.207642 V	Current: -0.0221014 mA
+CCW		Voltage: 1.18594 V	Current: 0.0852036 mA
+
+calibration value: 22
+CW		Voltage: -0.0995208 V	Current: -0.020648 mA
+CCW		Voltage: 1.51034 V	Current: -0.100812 mA
+
+calibration value: 1
+CW		Voltage: -0.0519993 V	Current: -0.0176714 mA
+CCW		Voltage: 1.666 V	Current: -0.0481784 mA
+
+calibration value: 11
+CW		Voltage: 0.152794 V	Current: -0.0105408 mA
+CCW		Voltage: 1.44318 V	Current: 0.131642 mA
+
+calibration value: 24
+CW		Voltage: -0.374769 V	Current: -0.00698584 mA
+CCW		Voltage: 0.648535 V	Current: 0.0363589 mA
+
+calibration value: 20
+CW		Voltage: 0.0118881 V	Current: -0.00533581 mA
+CCW		Voltage: 0.653473 V	Current: 0.042277 mA
+
+calibration value: 19
+CW		Voltage: 0.00698571 V	Current: -0.004745 mA
+CCW		Voltage: 0.184872 V	Current: 0.0289674 mA
+
+calibration value: 3
+CW		Voltage: 0.400188 V	Current: 0.00662998 mA
+CCW		Voltage: 2.00022 V	Current: -0.0822364 mA
+
+calibration value: 2
+CW		Voltage: 0.295338 V	Current: 0.0114354 mA
+CCW		Voltage: 1.2269 V	Current: -0.0986696 mA
+
+calibration value: 16
+CW		Voltage: 0.113476 V	Current: 0.0206812 mA
+CCW		Voltage: 0.997528 V	Current: -0.169487 mA
+
+calibration value: 27
+CW		Voltage: -0.527147 V	Current: 0.0367098 mA
+CCW		Voltage: 1.07945 V	Current: -0.016855 mA
+
+calibration value: 17
+CW		Voltage: -0.0290592 V	Current: 0.0383774 mA
+CCW		Voltage: 0.0456146 V	Current: 0.132151 mA
+
+calibration value: 26
+CW		Voltage: -0.994101 V	Current: 0.0486236 mA
+CCW		Voltage: 0.853344 V	Current: 0.0905196 mA
+
+calibration value: 12
+CW		Voltage: 0.242905 V	Current: 0.0567928 mA
+CCW		Voltage: 0.718993 V	Current: 0.0902648 mA
+
+calibration value: 0
+CW		Voltage: 1.64041 V	Current: 0.0673706 mA
+CCW		Voltage: 1.36126 V	Current: -0.0803 mA
+
+calibration value: 8
+CW		Voltage: 0.372345 V	Current: 0.0875804 mA
+CCW		Voltage: 1.85112 V	Current: 0.00301659 mA
+
+calibration value: 5
+CW		Voltage: 0.203586 V	Current: 0.0885364 mA
+CCW		Voltage: 1.35142 V	Current: 0.0847298 mA
+
+calibration value: 18
+CW		Voltage: 0.229799 V	Current: 0.144043 mA
+CCW		Voltage: 1.08764 V	Current: 0.0761848 mA
+
+calibration value: 21
+CW		Voltage: -0.132295 V	Current: 0.208593 mA
+CCW		Voltage: 0.581376 V	Current: 0.034297 mA
+
+
+
+///////////////////////////////////////////////////////
+
+Sort By Best CCW Current
+calibration value: 17
+CW		Voltage: -0.0290592 V	Current: 0.0383774 mA
+CCW		Voltage: 0.0456146 V	Current: 0.132151 mA
+
+calibration value: 11
+CW		Voltage: 0.152794 V	Current: -0.0105408 mA
+CCW		Voltage: 1.44318 V	Current: 0.131642 mA
+
+calibration value: 26
+CW		Voltage: -0.994101 V	Current: 0.0486236 mA
+CCW		Voltage: 0.853344 V	Current: 0.0905196 mA
+
+calibration value: 12
+CW		Voltage: 0.242905 V	Current: 0.0567928 mA
+CCW		Voltage: 0.718993 V	Current: 0.0902648 mA
+
+calibration value: 28
+CW		Voltage: -0.129024 V	Current: -0.040815 mA
+CCW		Voltage: 1.2908 V	Current: 0.0880186 mA
+
+calibration value: 23
+CW		Voltage: -0.207642 V	Current: -0.0221014 mA
+CCW		Voltage: 1.18594 V	Current: 0.0852036 mA
+
+calibration value: 5
+CW		Voltage: 0.203586 V	Current: 0.0885364 mA
+CCW		Voltage: 1.35142 V	Current: 0.0847298 mA
+
+calibration value: 18
+CW		Voltage: 0.229799 V	Current: 0.144043 mA
+CCW		Voltage: 1.08764 V	Current: 0.0761848 mA
+
+calibration value: 10
+CW		Voltage: -0.0962433 V	Current: -0.0436508 mA
+CCW		Voltage: 0.609215 V	Current: 0.0654978 mA
+
+calibration value: 9
+CW		Voltage: 0.0954663 V	Current: -0.141674 mA
+CCW		Voltage: 1.67254 V	Current: 0.0548516 mA
+
+calibration value: 15
+CW		Voltage: 0.00206722 V	Current: -0.0822279 mA
+CCW		Voltage: 1.27113 V	Current: 0.0516095 mA
+
+calibration value: 20
+CW		Voltage: 0.0118881 V	Current: -0.00533581 mA
+CCW		Voltage: 0.653473 V	Current: 0.042277 mA
+
+calibration value: 24
+CW		Voltage: -0.374769 V	Current: -0.00698584 mA
+CCW		Voltage: 0.648535 V	Current: 0.0363589 mA
+
+calibration value: 21
+CW		Voltage: -0.132295 V	Current: 0.208593 mA
+CCW		Voltage: 0.581376 V	Current: 0.034297 mA
+
+calibration value: 19
+CW		Voltage: 0.00698571 V	Current: -0.004745 mA
+CCW		Voltage: 0.184872 V	Current: 0.0289674 mA
+
+calibration value: 29
+CW		Voltage: -0.871215 V	Current: -0.129027 mA
+CCW		Voltage: 1.80197 V	Current: 0.011327 mA
+
+calibration value: 8
+CW		Voltage: 0.372345 V	Current: 0.0875804 mA
+CCW		Voltage: 1.85112 V	Current: 0.00301659 mA
+
+calibration value: 14
+CW		Voltage: 0.0741431 V	Current: -0.0994616 mA
+CCW		Voltage: 0.188163 V	Current: -0.00195922 mA
+
+calibration value: 6
+CW		Voltage: -0.00286163 V	Current: -0.0260062 mA
+CCW		Voltage: 1.24164 V	Current: -0.00527142 mA
+
+calibration value: 27
+CW		Voltage: -0.527147 V	Current: 0.0367098 mA
+CCW		Voltage: 1.07945 V	Current: -0.016855 mA
+
+calibration value: 4
+CW		Voltage: -0.0257913 V	Current: -0.0977692 mA
+CCW		Voltage: 1.23674 V	Current: -0.0169977 mA
+
+calibration value: 1
+CW		Voltage: -0.0519993 V	Current: -0.0176714 mA
+CCW		Voltage: 1.666 V	Current: -0.0481784 mA
+
+calibration value: 13
+CW		Voltage: -0.0126759 V	Current: -0.0366876 mA
+CCW		Voltage: 1.5333 V	Current: -0.0760768 mA
+
+calibration value: 0
+CW		Voltage: 1.64041 V	Current: 0.0673706 mA
+CCW		Voltage: 1.36126 V	Current: -0.0803 mA
+
+calibration value: 3
+CW		Voltage: 0.400188 V	Current: 0.00662998 mA
+CCW		Voltage: 2.00022 V	Current: -0.0822364 mA
+
+calibration value: 7
+CW		Voltage: -0.130642 V	Current: -0.119607 mA
+CCW		Voltage: 1.78067 V	Current: -0.0858096 mA
+
+calibration value: 2
+CW		Voltage: 0.295338 V	Current: 0.0114354 mA
+CCW		Voltage: 1.2269 V	Current: -0.0986696 mA
+
+calibration value: 22
+CW		Voltage: -0.0995208 V	Current: -0.020648 mA
+CCW		Voltage: 1.51034 V	Current: -0.100812 mA
+
+calibration value: 16
+CW		Voltage: 0.113476 V	Current: 0.0206812 mA
+CCW		Voltage: 0.997528 V	Current: -0.169487 mA
+
+calibration value: 25
+CW		Voltage: -0.237151 V	Current: -0.182735 mA
+CCW		Voltage: 0.899229 V	Current: -0.174537 mA
+

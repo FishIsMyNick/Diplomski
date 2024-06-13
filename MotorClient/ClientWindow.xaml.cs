@@ -42,7 +42,7 @@ namespace MotorClient
             cmdOutput = "";
             cmdQueue = new List<string>();
 
-            spdOutput = string.Empty;
+            spdOutput = "ISKLJUČENO";
 
             InitializeComponent();
             RefreshCmdOutput();
@@ -83,18 +83,41 @@ namespace MotorClient
                 return 1;
             }
         }
-        private int DisconnectFromServer()
+        private bool quitComplete = false;
+        private async Task<int> DisconnectFromServer()
         {
             if (debug) return 0;
+
             SendCommand("quit");
+            await Task.Delay(1000);
+
             if (clientMessageSocket != null)
                 clientMessageSocket.Close();
+
+            quitComplete = true;
             return 0;
         }
         private bool sending = false;
         private void SendCommand(string cmd)
         {
             cmdQueue.Add(cmd);
+        }
+        private async Task QuitServer()
+        {
+            try
+            {
+                string command = "quit";
+
+                await Task.Delay(100);
+                byte[] sendBytes = Encoding.ASCII.GetBytes(command);
+                await messageStream.WriteAsync(sendBytes, 0, sendBytes.Length);
+                messageStream.Flush();
+                AddLineToCmdOutput($"<<CLIENT>>\tSent command \"{command}\" to server.");
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+            }
         }
         private void StartSendCmdLoop()
         {
@@ -173,15 +196,23 @@ namespace MotorClient
                     AddLineToSpdOutput("Recieved mock speed");
                     return 0;
                 }
-                byte[] bytesFrom = new byte[1024];
-                await speedStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
-                string dataFromServer = Encoding.ASCII.GetString(bytesFrom);
-                dataFromServer = dataFromServer.Split('\0')[0];
+                if (measureSpeed)
+                {
+                    byte[] bytesFrom = new byte[1024];
+                    await speedStream.ReadAsync(bytesFrom, 0, bytesFrom.Length);
+                    string dataFromServer = Encoding.ASCII.GetString(bytesFrom);
+                    dataFromServer = dataFromServer.Split('\0')[0];
 
-                Console.WriteLine("Server response: " + dataFromServer);
-                AddLineToSpdOutput(dataFromServer);
+                    Console.WriteLine("Server response: " + dataFromServer);
+                    AddLineToSpdOutput(dataFromServer);
 
-                return dataFromServer.Length > 0 ? 0 : 1;
+                    return dataFromServer.Length > 0 ? 0 : 1;
+                }
+                else
+                {
+                    AddLineToSpdOutput("ISKLJUČENO");
+                    return 0;
+                }
             }
             catch (NullReferenceException nrex)
             {
@@ -199,7 +230,14 @@ namespace MotorClient
             while (listening)
             {
                 RecieveMessages();
-                RecieveSpeed();
+                if (measureSpeed)
+                {
+                    RecieveSpeed();
+                }
+                else
+                {
+                    AddLineToSpdOutput("ISKLJUČENO");
+                }
                 await Task.Delay(100);
             }
 
@@ -209,7 +247,11 @@ namespace MotorClient
         #region INTERACTIONS
         private void btn_quit_Click(object sender, RoutedEventArgs e)
         {
-            DisconnectFromServer();
+            CloseApp();
+        }
+        private async Task CloseApp()
+        {
+            await DisconnectFromServer();
             Close();
         }
 
@@ -253,7 +295,7 @@ namespace MotorClient
 
         private void AddLineToSpdOutput(string line = "")
         {
-            spdOutput = line + "\n";
+            spdOutput = line;
             RefreshSpdOutput();
         }
         private void RefreshSpdOutput()
@@ -263,20 +305,27 @@ namespace MotorClient
 
         private void btn_measureSpeed_Click(object sender, RoutedEventArgs e)
         {
-            SendCommand("TS");
             ToggleSpeedMeasure();
+            if (measureSpeed)
+                SendCommand("TSI");
+            else
+                SendCommand("TSO");
         }
         private void ToggleSpeedMeasure()
         {
             measureSpeed = !measureSpeed;
             lb_measureSpeed.Content = measureSpeed ? "Uključeno" : "Isključeno";
             lb_measureSpeed.Foreground = measureSpeed ? greenColor : redColor;
+            if (!measureSpeed) AddLineToSpdOutput("ISKLJUČENO");
         }
         #endregion
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DisconnectFromServer();
+            quitComplete = false;
+            await DisconnectFromServer();
+
+            while(quitComplete) { await Task.Delay(10); }
             listening = false;
         }
 
@@ -289,6 +338,23 @@ namespace MotorClient
         private void btn_addCcwCmd_Click(object sender, RoutedEventArgs e)
         {
             lv_komande.Items.Add(new CommandView("Rotiraj CCW", tb_speed_ccw.Text, tb_duration_ccw.Text + " ms"));
+        }
+
+        private void btn_setAccel_Click(object sender, RoutedEventArgs e)
+        {
+            string cmd = "ACC";
+            float acc = 0;
+            if (float.TryParse(tb_acceleration.Text, out acc))
+            {
+                if (acc < 0) acc = 0;
+                if (acc > 10) acc = 10;
+                tb_acceleration.Text = acc.ToString();
+                SendCommand($"{cmd} {acc} 0");
+            }
+            else
+            {
+                MessageBox.Show("Uneta vrednost za ubrzanje nije dozvoljena.");
+            }
         }
 
         private void btn_sendCommands_Click(object sender, RoutedEventArgs e)

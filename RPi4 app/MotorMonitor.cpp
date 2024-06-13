@@ -1,68 +1,72 @@
-#include <iostream>
+#include "MotorMonitor.h"
 
-const int detectMagnet = 24;
+MotorMonitor* MotorMonitor::instance = nullptr;
 
-bool detectMagnetRE;
-bool measure;
-bool motorInMotion;
-
+MotorMonitor::MotorMonitor() : detectMagnetRE(false) {
+	instance = this;
+	setupMonitor();
+}
 
 //	SETUP	////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-void risingEdgeCallback() {
-    detectMagnetRE = true;
-    std::cerr << "MAGNET\n";
+/// Set up pins and control variables
+void MotorMonitor::setupMonitor() {	
+	pinMode(detectMagnet, INPUT);
+	wiringPiISR(detectMagnet, INT_EDGE_RISING, &MotorMonitor::edgeDetectWrapper);
+
+	detectMagnetRE = false;
+	measure = false;
+	motorInMotion = false;
 }
 
-int setupMonitor() {
-    pinMode(detectMagnet, INPUT);
-    wiringPiISR(detectMagnet, INT_EDGE_RISING, &risingEdgeCallback);
-    
-    detectMagnetRE = false;
-    measure = false;
-    motorInMotion = false;
-    
-	return 0;
+/// Rising edge handle function
+void MotorMonitor::handleEdgeDetect() {
+	detectMagnetRE.store(true);
+}
+
+///	Rising edge wrapper function
+void MotorMonitor::edgeDetectWrapper() {
+	if(instance) {
+		instance -> handleEdgeDetect();
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////
 
-
-void setMotorInMotion(bool value) {
+///	'motorInMotion' setter
+void MotorMonitor::setMotorInMotion(bool value) {
 	motorInMotion = value;
 }
-void setMeasure(bool value) {
+///	'measure' setter
+void MotorMonitor::setMeasure(bool value) {
 	measure = value;
 }
 
-/// Use this one
-void measureSpeed(float* rpm, int pollRate) {
+/// Measures the time between 2 rising edges on the detection pin
+/// Sets the 'rpm' variable accordingly
+void MotorMonitor::measureSpeed(float* rpm) {
 	unsigned long lastHit = millis();
 	unsigned long hitTime;
-	unsigned long t = millis();
 	measure = true;
-	int timeout = 2000;
-	while(measure) {
-		if(detectMagnetRE) {
+	
+	while (measure) {
+		if (!motorInMotion) {
+			*rpm = 0.0f;
+		}
+		else if (detectMagnetRE) {
 			detectMagnetRE = false;
 			hitTime = millis();
 			*rpm = (1000.0f / (hitTime - lastHit)) * 60.0f;
 			lastHit = hitTime;
 		}
-		if(!motorInMotion) {
-			*rpm = 0.0f;
-		}
-		if(t + pollRate < millis()) {
-			//if (allowDebugRPM) std::cerr << "RPM: " << *rpm << std::endl;
-			t = millis();
-		}
-		
+
 		delay(1);
 	}
-	std::cerr<<"MONITOR STOP MEASURE\n";
+	std::cerr << "MONITOR STOP MEASURE\n";
 }
 
-void stopMeasuringSpeed() {
+///	Stops measuring speed
+void MotorMonitor::stopMeasuringSpeed() {
 	measure = false;
 }
